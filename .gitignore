@@ -10,5 +10,6 @@ pom.xml.asc
 .lein-plugins/
 .lein-failures
 .nrepl-port
+.gorilla-port
 
 /data/
