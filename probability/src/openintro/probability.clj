@@ -249,7 +249,7 @@
 
 ;; @@
 (def sim-fair-coin
-  (s/sample-binomial outcomes :size 100 :replacement true))
+  (s/sample outcomes :size 100 :replacement true))
 ;; @@
 ;; =>
 ;;; {"type":"html","content":"<span class='clj-var'>#&#x27;openintro.probability/sim-fair-coin</span>","value":"#'openintro.probability/sim-fair-coin"}
@@ -267,12 +267,12 @@
              (i/dataset [:side] sim-fair-coin)))
 ;; @@
 ;; ->
-;;; (tail head head head tail tail tail tail tail head tail head head tail head head head head head tail tail tail head head head tail head head head tail head head head tail head head head tail head tail tail tail head head head tail tail tail tail head head head tail head head tail tail head head tail tail head tail head tail tail tail head tail head head tail tail tail tail head head head tail tail tail tail tail tail tail tail head tail tail tail head tail head head tail head tail head tail tail)
+;;; (tail head tail tail tail tail tail head tail head tail head tail head tail head head tail head tail head head head tail tail head tail head tail head tail tail tail head head tail head head tail head head head tail tail head head tail head tail tail tail head tail head head head head tail tail head head head head head tail tail tail tail tail tail head tail head head tail tail tail head tail head head tail head head head head tail head tail head head tail head head tail head head tail tail head)
 ;;; 
 ;;; | :side | :total |
 ;;; |-------+--------|
-;;; |  tail |     52 |
-;;; |  head |     48 |
+;;; |  tail |     48 |
+;;; |  head |     52 |
 ;;; 
 ;; <-
 ;; =>
@@ -321,6 +321,77 @@
 ;;; fair coin, both slips of paper were the same size.
 ;; **
 
-;; @@
+;; **
+;;; ## Simulating the Independent Shooter
+;; **
+
+;; **
+;;; Simulating a basketball player who has independent shots uses the same mechanism 
+;;; that we use to simulate a coin flip. To simulate a single shot from an 
+;;; independent shooter with a shooting percentage of 50% we type,
+;; **
 
 ;; @@
+(def outcomes ["H", "M"])
+
+(def sim-basket
+  (s/sample outcomes :size 1 :replacement true))
+;; @@
+;; =>
+;;; {"type":"html","content":"<span class='clj-var'>#&#x27;openintro.probability/sim-basket</span>","value":"#'openintro.probability/sim-basket"}
+;; <=
+
+;; **
+;;; To make a valid comparison between Kobe and our simulated independent shooter, 
+;;; we need to align both their shooting percentage and the number of attempted shots.
+;; **
+
+;; @@
+(def sim-basket
+  (map outcomes (s/sample-binomial (i/nrow kobe) :prob 0.55 :size 1)))
+
+(print
+  (i/$rollup :count :total :basket
+             (i/dataset [:basket] sim-basket)))
+;; @@
+;; ->
+;;; 
+;;; | :basket | :total |
+;;; |---------+--------|
+;;; |       M |     76 |
+;;; |       H |     57 |
+;;; 
+;; <-
+;; =>
+;;; {"type":"html","content":"<span class='clj-nil'>nil</span>","value":"nil"}
+;; <=
+
+;; **
+;;; With the results of the simulation saved as `sim-basket`, we have the data 
+;;; necessary to compare Kobe to our independent shooter. We can look at Kobe's data 
+;; **
+
+;; @@
+(println (i/sel kobe :cols :basket))
+
+(println sim-basket)
+;; @@
+;; ->
+;;; (H M M H H M M M M H H H M H H M M H H H M M H M H H H M M M M M M H M H M M H H H H M H M M H M M H M M H M H H M M H M H H M H M M M H M M M M H M H M M H M M H H M M M M H H H M M H M M H M H H M H M M H M M M H M H H H M H H H M H M H M M M M M M H M H M M M M H)
+;;; (M M H M M M H H M H M H H H H M M M M M H H M M M M M M M H H M H M M M H M H H M M H M H M M H M M H H H M M M H M M H M H M H M M H H M H H H H M M M H H M M M H H M H H M M H H M M H M H M M H M H H M H H M M H H H M H H M M M H H M H M M M M M M M M M H M M M H)
+;;; 
+;; <-
+;; =>
+;;; {"type":"html","content":"<span class='clj-nil'>nil</span>","value":"nil"}
+;; <=
+
+;; **
+;;; Both data sets represent the results of 133 shot attempts, each with the same 
+;;; shooting percentage of 45%. We know that our simulated data is from a shooter 
+;;; that has independent shots. That is, we know the simulated shooter does not have
+;;; a hot hand.
+;; **
+
+;; **
+;;; 
+;; **
