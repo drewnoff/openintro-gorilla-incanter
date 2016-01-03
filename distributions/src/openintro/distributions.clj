@@ -93,3 +93,33 @@
 ;; **
 ;;; We broke output into two print commands to avoid clutter in the screen.
 ;; **
+
+;; **
+;;; You'll see that for every observation we have 25 measurements, many of which are
+;;; either diameters or girths.  A key to the variable names can be found at 
+;;; [http://www.openintro.org/stat/data/bdims.php](http://www.openintro.org/stat/data/bdims.php),
+;;; but we'll be focusing on just three columns to get started: weight in kg (`wgt`), 
+;;; height in cm (`hgt`), and `sex` (`1` indicates male, `0` indicates female).
+;;; 
+;;; Since males and females tend to have different body dimensions, it will be 
+;;; useful to create two additional data sets: one with only men and another with 
+;;; only women.
+;; **
+
+;; @@
+(def mdims (i/$where {:sex 1} bdims))
+
+(def fdims (i/$where {:sex 0} bdims))
+;; @@
+;; =>
+;;; {"type":"html","content":"<span class='clj-var'>#&#x27;openintro.distribuions/fdims</span>","value":"#'openintro.distribuions/fdims"}
+;; <=
+
+;; **
+;;; *1.  Make a histogram of men's heights and a histogram of women's heights.  How 
+;;;     would you compare the various aspects of the two distributions?*
+;; **
+
+;; @@
+
+;; @@
