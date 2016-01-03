@@ -13,7 +13,8 @@
 (require '[incanter.core :as i]
          '[incanter.charts :as c]
          '[incanter.io :as iio]
-         '[incanter.stats :as s])
+         '[incanter.stats :as s]
+         '[incanter.distributions :as dist])
 (use 'incanter-gorilla.render :reload)
 ;; @@
 ;; =>
@@ -207,6 +208,117 @@
 ;;; to the question: how do we tell if Kobe's shooting streaks are long enough to 
 ;;; indicate that he has hot hands? We can compare his streak lengths to someone
 ;;; without hot hands: an independent shooter. 
+;; **
+
+;; **
+;;; ## Simulations in Incanter
+;; **
+
+;; **
+;;; While we don't have any data from a shooter we know to have independent shots, 
+;;; that sort of data is very easy to simulate in Incanter. In a simulation, you set the 
+;;; ground rules of a random process and then the computer uses random numbers to 
+;;; generate an outcome that adheres to those rules. As a simple example, you can
+;;; simulate flipping a fair coin with the following.
+;; **
+
+;; @@
+(def outcomes ["head", "tail"])
+
+(s/sample outcomes :size 1 :replacement true)
+;; @@
+;; =>
+;;; {"type":"html","content":"<span class='clj-string'>&quot;tail&quot;</span>","value":"\"tail\""}
+;; <=
+
+;; **
+;;; The vector `outcomes` can be thought of as a hat with two slips of paper in it: 
+;;; one slip says `heads` and the other says `tails`. The function `sample` draws 
+;;; one slip from the hat and tells us if it was a head or a tail. 
+;;; 
+;;; Run the second command listed above several times. Just like when flipping a 
+;;; coin, sometimes you'll get a heads, sometimes you'll get a tails, but in the 
+;;; long run, you'd expect to get roughly equal numbers of each.
+;;; 
+;;; If you wanted to simulate flipping a fair coin 100 times, you could either run 
+;;; the function 100 times or, more simply, adjust the `size` argument, which 
+;;; governs how many samples to draw (the `:replacement true` (default is `true`) argument indicates we put
+;;; the slip of paper back in the hat before drawing again). Save the resulting 
+;;; vector of heads and tails in a new object called `sim-fair-coin`.
+;; **
+
+;; @@
+(def sim-fair-coin
+  (s/sample-binomial outcomes :size 100 :replacement true))
+;; @@
+;; =>
+;;; {"type":"html","content":"<span class='clj-var'>#&#x27;openintro.probability/sim-fair-coin</span>","value":"#'openintro.probability/sim-fair-coin"}
+;; <=
+
+;; **
+;;; Lets have a look at the results of this simulation.
+;; **
+
+;; @@
+(println sim-fair-coin)
+
+(print
+  (i/$rollup :count :total :side
+             (i/dataset [:side] sim-fair-coin)))
+;; @@
+;; ->
+;;; (tail head head head tail tail tail tail tail head tail head head tail head head head head head tail tail tail head head head tail head head head tail head head head tail head head head tail head tail tail tail head head head tail tail tail tail head head head tail head head tail tail head head tail tail head tail head tail tail tail head tail head head tail tail tail tail head head head tail tail tail tail tail tail tail tail head tail tail tail head tail head head tail head tail head tail tail)
+;;; 
+;;; | :side | :total |
+;;; |-------+--------|
+;;; |  tail |     52 |
+;;; |  head |     48 |
+;;; 
+;; <-
+;; =>
+;;; {"type":"html","content":"<span class='clj-nil'>nil</span>","value":"nil"}
+;; <=
+
+;; **
+;;; Since there are only two elements in `outcomes`, the probability that we "flip" 
+;;; a coin and it lands heads is 0.5. Say we're trying to simulate an unfair coin 
+;;; that we know only lands heads 20% of the time. For that you can do the following trick
+;; **
+
+;; @@
+(def sim-unfair-coin
+  (map outcomes (s/sample-binomial 100 :prob 8/10 :size 1)))
+
+(print
+  (i/$rollup :count :total :side
+             (i/dataset [:side] sim-unfair-coin)))
+;; @@
+;; ->
+;;; 
+;;; | :side | :total |
+;;; |-------+--------|
+;;; |  tail |     77 |
+;;; |  head |     23 |
+;;; 
+;; <-
+;; =>
+;;; {"type":"html","content":"<span class='clj-nil'>nil</span>","value":"nil"}
+;; <=
+
+;; **
+;;; Here we used the binomial distribution simulation with one experiment and probability of positive outcome of 0.8. Which gives us the probability of exactly one success in the experiment is equal to `0.8` and probability of zero positive outcomes is equal to `0.2`. The sequence of such experiments produces the sequence of `0` and `1` which we are using to draw `head` or `tail` from our outcome space by index. 
+;; **
+
+;; **
+;;; *3.  In your simulation of flipping the unfair coin 100 times, how many flips 
+;;;     came up heads?*
+;; **
+
+;; **
+;;; In a sense, we've shrunken the size of the slip of paper that says "heads", 
+;;; making it less likely to be drawn and we've increased the size of the slip of 
+;;; paper saying "tails", making it more likely to be drawn. When we simulated the 
+;;; fair coin, both slips of paper were the same size.
 ;; **
 
 ;; @@
