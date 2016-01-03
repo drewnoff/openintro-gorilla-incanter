@@ -1,14 +1,2 @@
-# proba
-
-A Clojure library designed to ... well, that part is up to you.
-
-## Usage
-
-FIXME
-
-## License
-
-Copyright © 2016 FIXME
-
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+## Probability
+[link](http://viewer.gorilla-repl.org/view.html?source=github&user=drewnoff&repo=openintro-gorilla-incanter&path=/probability/src/openintro/probability.clj) to shared Gorilla worksheet to view this lab in online viewer.
