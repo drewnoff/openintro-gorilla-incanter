@@ -358,8 +358,8 @@
 ;;; 
 ;;; | :basket | :total |
 ;;; |---------+--------|
-;;; |       M |     76 |
-;;; |       H |     57 |
+;;; |       M |     74 |
+;;; |       H |     59 |
 ;;; 
 ;; <-
 ;; =>
@@ -378,7 +378,7 @@
 ;; @@
 ;; ->
 ;;; (H M M H H M M M M H H H M H H M M H H H M M H M H H H M M M M M M H M H M M H H H H M H M M H M M H M M H M H H M M H M H H M H M M M H M M M M H M H M M H M M H H M M M M H H H M M H M M H M H H M H M M H M M M H M H H H M H H H M H M H M M M M M M H M H M M M M H)
-;;; (M M H M M M H H M H M H H H H M M M M M H H M M M M M M M H H M H M M M H M H H M M H M H M M H M M H H H M M M H M M H M H M H M M H H M H H H H M M M H H M M M H H M H H M M H H M M H M H M M H M H H M H H M M H H H M H H M M M H H M H M M M M M M M M M H M M M H)
+;;; (M M M H H H M M M H H H M H M H H M H M M H H M M M H H M M M M H H M M H M H H H M H M M M H M H H M M M M M H M H M H H M M H H M H H H H M M H M M M H M M M M H H M M H M M M M M H H M M H M M M M H M H H M M H M H H H H H H M M M M M H H H H M M M M H H M M H M)
 ;;; 
 ;; <-
 ;; =>
@@ -393,5 +393,41 @@
 ;; **
 
 ;; **
+;;; ### Comparing Kobe Bryant to the Independent Shooter
+;; **
+
+;; **
+;;; Using `calc-streak`, let's compute the streak lengths of `sim-basket`.
+;; **
+
+;; @@
+(def shooter-streak (i/dataset [:streak] (calc-streak sim-basket)))
+
+(def shooter-streak-chart
+  (i/with-data
+    (i/$order :streak :asc (i/$rollup :count :total :streak shooter-streak))
+    (c/bar-chart :streak :total)))
+
+(chart-view shooter-streak-chart)
+;; @@
+;; =>
+;;; {"type":"html","content":"<img src=\"data:image/PNG;base64,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\"/>","value":"#incanter_gorilla.render.ChartView{:content #object[org.jfree.chart.JFreeChart 0x4cf36937 \"org.jfree.chart.JFreeChart@4cf36937\"], :opts nil}"}
+;; <=
+
+;; **
+;;; * * *
 ;;; 
+;;; -   Describe the distribution of streak lengths. What is the typical streak 
+;;;     length for this simulated independent shooter with a 45% shooting percentage?
+;;;     How long is the player's longest streak of baskets in 133 shots?
+;;; 
+;;; -   If you were to run the simulation of the independent shooter a second time, 
+;;;     how would you expect its streak distribution to compare to the distribution 
+;;;     from the question above? Exactly the same? Somewhat similar? Totally 
+;;;     different? Explain your reasoning.
+;;; 
+;;; -   How does Kobe Bryant's distribution of streak lengths compare to the 
+;;;     distribution of streak lengths for the simulated shooter? Using this 
+;;;     comparison, do you have evidence that the hot hand model fits Kobe's 
+;;;     shooting patterns? Explain.
 ;; **
