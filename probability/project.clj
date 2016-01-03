@@ -1,6 +1,6 @@
-(defproject intro-to-data "0.1.0-SNAPSHOT"
-  :description "OenIntro lab 'Introduction to data'"
-  :url "http://viewer.gorilla-repl.org/view.html?source=github&user=drewnoff&repo=openintro-gorilla-incanter&path=/intro-to-data/src/openintro/intro-to-data.clj"
+(defproject probability "0.1.0-SNAPSHOT"
+  :description "OenIntro lab 'Probability'"
+  :url "http://viewer.gorilla-repl.org/view.html?source=github&user=drewnoff&repo=openintro-gorilla-incanter&path=/probability/src/openintro/probability.clj"
   :license {:name "CC-BY-SA"
             :url "http://creativecommons.org/licenses/by-sa/3.0/"}
   :dependencies [[org.clojure/clojure "1.7.0"]
