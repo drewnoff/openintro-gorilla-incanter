@@ -162,6 +162,53 @@
 ;;;     What was his typical streak length? How long was his longest streak of baskets?*
 ;; **
 
+;; **
+;;; ## Compared to What?
+;;; 
+;; **
+
+;; **
+;;; We've shown that Kobe had some long shooting streaks, but are they long enough 
+;;; to support the belief that he had hot hands? What can we compare them to?
+;;; 
+;;; To answer these questions, let's return to the idea of *independence*. Two 
+;;; processes are independent if the outcome of one process doesn't effect the outcome 
+;;; of the second. If each shot that a player takes is an independent process, 
+;;; having made or missed your first shot will not affect the probability that you
+;;; will make or miss your second shot.
+;;; 
+;;; A shooter with a hot hand will have shots that are *not* independent of one 
+;;; another. Specifically, if the shooter makes his first shot, the hot hand model 
+;;; says he will have a *higher* probability of making his second shot.
+;;; 
+;;; Let's suppose for a moment that the hot hand model is valid for Kobe. During his
+;;; career, the percentage of time Kobe makes a basket (i.e. his shooting 
+;;; percentage) is about 45%, or in probability notation,
+;;; 
+;;; $$ P(\textrm{shot 1 = H}) = 0.45 $$
+;;; 
+;;; If he makes the first shot and has a hot hand (*not* independent shots), then 
+;;; the probability that he makes his second shot would go up to, let's say, 60%,
+;;; 
+;;; $$ P(\textrm{shot 2 = H} \, | \, \textrm{shot 1 = H}) = 0.60 $$
+;;; 
+;;; As a result of these increased probabilites, you'd expect Kobe to have longer 
+;;; streaks. Compare this to the skeptical perspective where Kobe does *not* have a
+;;; hot hand, where each shot is independent of the next. If he hit his first shot,
+;;; the probability that he makes the second is still 0.45.
+;;; 
+;;; $$ P(\textrm{shot 2 = H} \, | \, \textrm{shot 1 = H}) = 0.45 $$
+;;; 
+;;; In other words, making the first shot did nothing to effect the probability that
+;;; he'd make his second shot. If Kobe's shots are independent, then he'd have the 
+;;; same probability of hitting every shot regardless of his past shots: 45%.
+;;; 
+;;; Now that we've phrased the situation in terms of independent shots, let's return
+;;; to the question: how do we tell if Kobe's shooting streaks are long enough to 
+;;; indicate that he has hot hands? We can compare his streak lengths to someone
+;;; without hot hands: an independent shooter. 
+;; **
+
 ;; @@
 
 ;; @@
