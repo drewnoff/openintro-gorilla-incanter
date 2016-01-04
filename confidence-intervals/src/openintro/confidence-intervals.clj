@@ -73,6 +73,60 @@
 ;;; Would you expect it to be similar? Why or why not?
 ;; **
 
+;; **
+;;; ## Confidence intervals
+;; **
+
+;; **
+;;; One of the most common ways to describe the typical or central value of a distribution is to use the mean. In this case we can calculate the mean of the sample using,
+;; **
+
+;; @@
+(def sample-mean (s/mean samp))
+;; @@
+;; =>
+;;; {"type":"html","content":"<span class='clj-var'>#&#x27;openintro.confidence-intervals/sample-mean</span>","value":"#'openintro.confidence-intervals/sample-mean"}
+;; <=
+
+;; **
+;;; Return for a moment to the question that first motivated this lab: based on 
+;;; this sample, what can we infer about the population? Based only on this single 
+;;; sample, the best estimate of the average living area of houses sold in Ames 
+;;; would be the sample mean, usually denoted as @@\bar{x}@@ (here we're calling it 
+;;; `sample-mean`). That serves as a good *point estimate* but it would be useful 
+;;; to also communicate how uncertain we are of that estimate. This can be 
+;;; captured by using a *confidence interval*.
+;;; 
+;;; We can calculate a 95% confidence interval for a sample mean by adding and 
+;;; subtracting 1.96 standard errors to the point estimate (See Section 4.2.3 if 
+;;; you are unfamiliar with this formula).
+;; **
+
+;; @@
+(def se (i/$= (s/sd samp) / (i/sqrt 60)))
+
+(def lower (i/$= sample-mean - 1.96 * se))
+(def upper (i/$= sample-mean + 1.96 * se))
+
+[lower, upper]
+;; @@
+;; =>
+;;; {"type":"list-like","open":"<span class='clj-vector'>[</span>","close":"<span class='clj-vector'>]</span>","separator":" ","items":[{"type":"html","content":"<span class='clj-double'>1412.4364733631821</span>","value":"1412.4364733631821"},{"type":"html","content":"<span class='clj-double'>1653.1635266368178</span>","value":"1653.1635266368178"}],"value":"[1412.4364733631821 1653.1635266368178]"}
+;; <=
+
+;; **
+;;; This is an important inference that we've just made: even though we don't know 
+;;; what the full population looks like, we're 95% confident that the true 
+;;; average size of houses in Ames lies between the values *lower* and *upper*. 
+;;; There are a few conditions that must be met for this interval to be valid.
+;; **
+
+;; **
+;;; *3.  For the confidence interval to be valid, the sample mean must be normally 
+;;; distributed and have standard error @@s / \sqrt{n}@@. What conditions must be 
+;;; met for this to be true?*
+;; **
+
 ;; @@
 
 ;; @@
