@@ -111,7 +111,7 @@
 [lower, upper]
 ;; @@
 ;; =>
-;;; {"type":"list-like","open":"<span class='clj-vector'>[</span>","close":"<span class='clj-vector'>]</span>","separator":" ","items":[{"type":"html","content":"<span class='clj-double'>1449.9361476532492</span>","value":"1449.9361476532492"},{"type":"html","content":"<span class='clj-double'>1720.4638523467509</span>","value":"1720.4638523467509"}],"value":"[1449.9361476532492 1720.4638523467509]"}
+;;; {"type":"list-like","open":"<span class='clj-vector'>[</span>","close":"<span class='clj-vector'>]</span>","separator":" ","items":[{"type":"html","content":"<span class='clj-double'>1446.5077669455761</span>","value":"1446.5077669455761"},{"type":"html","content":"<span class='clj-double'>1679.3255663877574</span>","value":"1679.3255663877574"}],"value":"[1446.5077669455761 1679.3255663877574]"}
 ;; <=
 
 ;; **
@@ -177,11 +177,11 @@
 (def n 60)
 
 (def samp-stats
-  [(map (fn [_] (s/mean (s/sample population :size n))) (range 50))
-   (map (fn [_] (s/sd (s/sample population :size n))) (range 50))])
+  (map (fn [_] [(s/mean (s/sample population :size n))
+                (s/sd (s/sample population :size n))]) (range 50)))
 
-(def samp-mean (first samp-stats))
-(def samp-sd (second samp-stats))
+(def samp-mean (map first samp-stats))
+(def samp-sd (map second samp-stats))
 ;; @@
 ;; =>
 ;;; {"type":"html","content":"<span class='clj-var'>#&#x27;openintro.confidence-intervals/samp-sd</span>","value":"#'openintro.confidence-intervals/samp-sd"}
@@ -208,7 +208,7 @@
 (map first [lower-bounds upper-bounds])
 ;; @@
 ;; =>
-;;; {"type":"list-like","open":"<span class='clj-lazy-seq'>(</span>","close":"<span class='clj-lazy-seq'>)</span>","separator":" ","items":[{"type":"html","content":"<span class='clj-double'>1333.8926015371828</span>","value":"1333.8926015371828"},{"type":"html","content":"<span class='clj-double'>1621.7740651294837</span>","value":"1621.7740651294837"}],"value":"(1333.8926015371828 1621.7740651294837)"}
+;;; {"type":"list-like","open":"<span class='clj-lazy-seq'>(</span>","close":"<span class='clj-lazy-seq'>)</span>","separator":" ","items":[{"type":"html","content":"<span class='clj-double'>1415.6795770612248</span>","value":"1415.6795770612248"},{"type":"html","content":"<span class='clj-double'>1648.1204229387754</span>","value":"1648.1204229387754"}],"value":"(1415.6795770612248 1648.1204229387754)"}
 ;; <=
 
 ;; **
