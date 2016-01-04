@@ -286,7 +286,7 @@
 ;;;     your best point estimate of the population mean?
 ;;; 
 ;;; -   Since you have access to the population, simulate the sampling 
-;;;     distribution for $$\bar{x}_{price}$$ by taking 5000 samples from the 
+;;;     distribution for @@\bar{x}_{price}@@ by taking 5000 samples from the 
 ;;;     population of size 50 and computing 5000 sample means.  Store these means 
 ;;;     in a vector called `sample-means50`. Plot the data, then describe the 
 ;;;     shape of this sampling distribution. Based on this sampling distribution, 
