@@ -355,3 +355,41 @@
 ;;;     as the empirical distribution (four probabilities in all).  Which variable,
 ;;;     height or weight, had a closer agreement between the two methods?*
 ;; **
+
+;; **
+;;; * * *
+;;; 
+;;; ## On Your Own
+;;; 
+;;; -   Now let's consider some of the other variables in the body dimensions data 
+;;;     set.  Using the figures at the end of the exercises, match the histogram to 
+;;;     its normal probability plot.  All of the variables have been standardized 
+;;;     (first subtract the mean, then divide by the standard deviation), so the 
+;;;     units won't be of any help.  If you are uncertain based on these figures, 
+;;;     generate the plots in Incanter to check.
+;;; 
+;;;     **a.** The histogram for female biiliac (pelvic) diameter (`bii.di`) belongs
+;;;     to normal probability plot letter ____.
+;;; 
+;;;     **b.** The histogram for female elbow diameter (`elb.di`) belongs to normal 
+;;;     probability plot letter ____.
+;;; 
+;;;     **c.** The histogram for general age (`age`) belongs to normal probability 
+;;;     plot letter ____.
+;;; 
+;;;     **d.** The histogram for female chest depth (`che.de`) belongs to normal 
+;;;     probability plot letter ____.
+;;; 
+;;; -   Note that normal probability plots C and D have a slight stepwise pattern.  
+;;;     Why do you think this is the case?
+;;; 
+;;; -   As you can see, normal probability plots can be used both to assess 
+;;;     normality and visualize skewness.  Make a normal probability plot for female 
+;;;     knee diameter (`kne.di`).  Based on this normal probability plot, is this 
+;;;     variable left skewed, symmetric, or right skewed?  Use a histogram to confirm 
+;;;     your findings.
+;; **
+
+;; **
+;;; ![histQQmatch](./resources/histQQmatch.png)
+;; **
