@@ -111,7 +111,7 @@
 [lower, upper]
 ;; @@
 ;; =>
-;;; {"type":"list-like","open":"<span class='clj-vector'>[</span>","close":"<span class='clj-vector'>]</span>","separator":" ","items":[{"type":"html","content":"<span class='clj-double'>1412.4364733631821</span>","value":"1412.4364733631821"},{"type":"html","content":"<span class='clj-double'>1653.1635266368178</span>","value":"1653.1635266368178"}],"value":"[1412.4364733631821 1653.1635266368178]"}
+;;; {"type":"list-like","open":"<span class='clj-vector'>[</span>","close":"<span class='clj-vector'>]</span>","separator":" ","items":[{"type":"html","content":"<span class='clj-double'>1449.9361476532492</span>","value":"1449.9361476532492"},{"type":"html","content":"<span class='clj-double'>1720.4638523467509</span>","value":"1720.4638523467509"}],"value":"[1449.9361476532492 1720.4638523467509]"}
 ;; <=
 
 ;; **
@@ -127,6 +127,108 @@
 ;;; met for this to be true?*
 ;; **
 
-;; @@
+;; **
+;;; ## Confidence levels
+;; **
+
+;; **
+;;; *4.  What does "95% confidence" mean? If you're not sure, see Section 4.2.2.*
+;; **
+
+;; **
+;;; In this case we have the luxury of knowing the true population mean since we 
+;;; have data on the entire population. This value can be calculated using the 
+;;; following command:
+;; **
 
 ;; @@
+(s/mean population)
+;; @@
+;; =>
+;;; {"type":"html","content":"<span class='clj-double'>1499.6904436860068</span>","value":"1499.6904436860068"}
+;; <=
+
+;; **
+;;; *5.  Does your confidence interval capture the true average size of houses in 
+;;; Ames? If you are working on this lab in a classroom, does your neighbor's 
+;;; interval capture this value?*
+;;; 
+;;; *6.  Each student in your class should have gotten a slightly different 
+;;; confidence interval. What proportion of those intervals would you expect to 
+;;; capture the true population mean? Why? If you are working in this lab in a 
+;;; classroom, collect data on the intervals created by other students in the 
+;;; class and calculate the proportion of intervals that capture the true 
+;;; population mean*
+;; **
+
+;; **
+;;; We're going to recreate many samples to learn more about how sample 
+;;; means and confidence intervals vary from one sample to another.
+;;; 
+;;; Here is the rough outline:
+;;; 
+;;; -   Obtain a random sample.
+;;; -   Calculate and store the sample's mean and standard deviation.
+;;; -   Repeat steps (1) and (2) 50 times.
+;;; -   Use these stored statistics to calculate many confidence intervals.
+;; **
+
+;; @@
+(def n 60)
+
+(def samp-stats
+  [(map (fn [_] (s/mean (s/sample population :size n))) (range 50))
+   (map (fn [_] (s/sd (s/sample population :size n))) (range 50))])
+
+(def samp-mean (first samp-stats))
+(def samp-sd (second samp-stats))
+;; @@
+;; =>
+;;; {"type":"html","content":"<span class='clj-var'>#&#x27;openintro.confidence-intervals/samp-sd</span>","value":"#'openintro.confidence-intervals/samp-sd"}
+;; <=
+
+;; **
+;;; Lastly, we construct the confidence intervals.
+;; **
+
+;; @@
+(def lower-bounds (i/$= samp-mean - 1.96 * samp-sd / (i/sqrt n)))
+(def upper-bounds (i/$= samp-mean + 1.96 * samp-sd / (i/sqrt n)))
+;; @@
+;; =>
+;;; {"type":"html","content":"<span class='clj-var'>#&#x27;openintro.confidence-intervals/upper-bounds</span>","value":"#'openintro.confidence-intervals/upper-bounds"}
+;; <=
+
+;; **
+;;; Lower bounds of these 50 confidence intervals are stored in `lower-bounds`, 
+;;; and the upper bounds are in `upper-bounds`. Let's view the first interval.
+;; **
+
+;; @@
+(map first [lower-bounds upper-bounds])
+;; @@
+;; =>
+;;; {"type":"list-like","open":"<span class='clj-lazy-seq'>(</span>","close":"<span class='clj-lazy-seq'>)</span>","separator":" ","items":[{"type":"html","content":"<span class='clj-double'>1333.8926015371828</span>","value":"1333.8926015371828"},{"type":"html","content":"<span class='clj-double'>1621.7740651294837</span>","value":"1621.7740651294837"}],"value":"(1333.8926015371828 1621.7740651294837)"}
+;; <=
+
+;; **
+;;; * * *
+;;; 
+;;; ## On your own
+;;; 
+;;; -   Plot all intervals. What proportion of your confidence intervals include 
+;;;     the true population mean? Is this proportion exactly equal to the 
+;;;     confidence level? If not, explain why.
+;;; 
+;;; -   Pick a confidence level of your choosing, provided it is not 95%. What is 
+;;;     the appropriate critical value?
+;;; 
+;;; -   Calculate 50 confidence intervals at the confidence level you chose in the 
+;;;     previous question. You do not need to obtain new samples, simply calculate 
+;;;     new intervals based on the sample means and standard deviations you have 
+;;;     already collected. Plot all intervals and 
+;;;     calculate the proportion of intervals that include the true population 
+;;;     mean. How does this percentage compare to the confidence level selected for
+;;;     the intervals?
+;;; 
+;; **
