@@ -391,5 +391,5 @@
 ;; **
 
 ;; **
-;;; ![histQQmatch](./resources/histQQmatch.png)
+;;; ![histQQmatch](https://raw.githubusercontent.com/drewnoff/openintro-gorilla-incanter/master/distributions/resources/histQQmatch.png)
 ;; **
