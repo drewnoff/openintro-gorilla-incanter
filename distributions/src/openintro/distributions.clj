@@ -237,7 +237,7 @@
 ;; <=
 
 ;; **
-;;; You'll learn about `cdf-normal` function in a moment.
+;;; You'll learn about `cdf-normal` a bit later in this lab.
 ;; **
 
 ;; **
@@ -290,6 +290,68 @@
 ;;;     come from a normal distribution.*
 ;; **
 
-;; @@
+;; **
+;;; ## Normal probabilities
+;; **
+
+;; **
+;;; Okay, so now you have a slew of tools to judge whether or not a variable is 
+;;; normally distributed.  Why should we care?
+;;; 
+;;; It turns out that statisticians know a lot about the normal distribution.  Once 
+;;; we decide that a random variable is approximately normal, we can answer all 
+;;; sorts of questions about that variable related to probability.  Take, for 
+;;; example, the question of, "What is the probability that a randomly chosen young 
+;;; adult female is taller than 6 feet (about 182 cm)?" (The study that published
+;;; this data set is clear to point out that the sample was not random and therefore 
+;;; inference to a general population is not suggested.  We do so here only as an
+;;; exercise.)
+;;; 
+;;; If we assume that female heights are normally distributed (a very close 
+;;; approximation is also okay), we can find this probability by calculating a Z 
+;;; score and consulting a Z table (also called a normal probability table).  In Incanter, 
+;;; this is done in one step with the function `cdf-normal`.
+;; **
 
 ;; @@
+(- 1 (s/cdf-normal 182 :mean fhgtmean :sd fhgtsd))
+;; @@
+;; =>
+;;; {"type":"html","content":"<span class='clj-double'>0.004434386918686806</span>","value":"0.004434386918686806"}
+;; <=
+
+;; **
+;;; Note that the function `cdf-normal` gives the area under the normal curve below a 
+;;; given value, `x`, with a given mean and standard deviation.  Since we're 
+;;; interested in the probability that someone is taller than 182 cm, we have to 
+;;; take one minus that probability.
+;;; 
+;;; Assuming a normal distribution has allowed us to calculate a theoretical 
+;;; probability.  If we want to calculate the probability empirically, we simply 
+;;; need to determine how many observations fall above 182 then divide this number 
+;;; by the total sample size.
+;; **
+
+;; @@
+(float 
+  (/ 
+    (i/nrow (i/$where {:hgt {:gt 182}} fdims)) 
+    (i/nrow fdims)))
+;; @@
+;; =>
+;;; {"type":"html","content":"<span class='clj-unkown'>0.0038461538</span>","value":"0.0038461538"}
+;; <=
+
+;; **
+;;; Although the probabilities are not exactly the same, they are reasonably close. 
+;;; The closer that your distribution is to being normal, the more accurate the 
+;;; theoretical probabilities will be.
+;; **
+
+;; **
+;;; *6.  Write out two probability questions that you would like to answer; one 
+;;;     regarding female heights and one regarding female weights.  Calculate the 
+;;;     those probabilities using both the theoretical normal distribution as well 
+;;;     as the empirical distribution (four probabilities in all).  Which variable,
+;;;     height or weight, had a closer agreement between the two methods?*
+;; **
