@@ -8,3 +8,5 @@ You can examine all the labs using Gorilla Online Viewer:
 - [Probability](http://viewer.gorilla-repl.org/view.html?source=github&user=drewnoff&repo=openintro-gorilla-incanter&path=/probability/src/openintro/probability.clj)
 
 - [Distributions](http://viewer.gorilla-repl.org/view.html?source=github&user=drewnoff&repo=openintro-gorilla-incanter&path=/distributions/src/openintro/distributions.clj)
+
+- [Intro to Inference](http://viewer.gorilla-repl.org/view.html?source=github&user=drewnoff&repo=openintro-gorilla-incanter&path=/intro-to-inference/src/openintro/intro-to-inference.clj)
