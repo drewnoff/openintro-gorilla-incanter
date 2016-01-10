@@ -1,7 +1,18 @@
 # openintro-gorilla-incanter
 [OpenIntro Labs](https://www.openintro.org/stat/labs.php) in Clojure with Gorilla REPL and Incanter.
 
-You can examine all the labs using Gorilla Online Viewer:
+## Requirements
+Leiningen (version >= 2)
+
+## HOWTO
+Navigate to lab's project dir and run
+```
+lein gorilla
+```
+Navigate your browser to printed link to get nREPL session.
+Load lab's `clj` file with `ctrl+g ctrl+l` shortcut.
+
+### You can also examine all the labs using Gorilla Online Viewer:
 
 - [Introduction to Data](http://viewer.gorilla-repl.org/view.html?source=github&user=drewnoff&repo=openintro-gorilla-incanter&path=/intro-to-data/src/openintro/intro-to-data.clj)
 
