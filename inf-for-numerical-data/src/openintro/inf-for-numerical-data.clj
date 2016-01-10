@@ -145,6 +145,84 @@
 ;;; significant? In order to answer this question we will conduct a hypothesis test.
 ;; **
 
-;; @@
+;; **
+;;; ## Inference
+;; **
+
+;; **
+;;; *3.  Check if the conditions necessary for inference are satisfied. Note that 
+;;; you will need to obtain sample sizes to check the conditions. You can compute 
+;;; the group size using the same `$rollup` function above but replacing `mean` with 
+;;; `count`.*
+;;; 
+;;; *4.  Write the hypotheses for testing if the average weights of babies born to 
+;;; smoking and non-smoking mothers are different.*
+;;; 
+;;; Next, we introduce a new function, `t-test`, that we will use for conducting
+;;; hypothesis tests and constructing confidence intervals. 
+;; **
 
 ;; @@
+(s/t-test (i/sel (i/$where {:habit "nonsmoker"} nc) :cols :weight)
+          :y (i/sel (i/$where {:habit "smoker"} nc) :cols :weight)
+          :paired false
+          :conf-lavel 0.95
+          :alternative :two-sided)
+;; @@
+;; =>
+;;; {"type":"list-like","open":"<span class='clj-map'>{</span>","close":"<span class='clj-map'>}</span>","separator":", ","items":[{"type":"list-like","open":"","close":"","separator":" ","items":[{"type":"html","content":"<span class='clj-keyword'>:p-value</span>","value":":p-value"},{"type":"html","content":"<span class='clj-double'>0.019450556443720846</span>","value":"0.019450556443720846"}],"value":"[:p-value 0.019450556443720846]"},{"type":"list-like","open":"","close":"","separator":" ","items":[{"type":"html","content":"<span class='clj-keyword'>:df</span>","value":":df"},{"type":"html","content":"<span class='clj-double'>171.32465666242578</span>","value":"171.32465666242578"}],"value":"[:df 171.32465666242578]"},{"type":"list-like","open":"","close":"","separator":" ","items":[{"type":"html","content":"<span class='clj-keyword'>:n2</span>","value":":n2"},{"type":"html","content":"<span class='clj-unkown'>126</span>","value":"126"}],"value":"[:n2 126]"},{"type":"list-like","open":"","close":"","separator":" ","items":[{"type":"html","content":"<span class='clj-keyword'>:x-mean</span>","value":":x-mean"},{"type":"html","content":"<span class='clj-double'>7.144272623138631</span>","value":"7.144272623138631"}],"value":"[:x-mean 7.144272623138631]"},{"type":"list-like","open":"","close":"","separator":" ","items":[{"type":"html","content":"<span class='clj-keyword'>:y-mean</span>","value":":y-mean"},{"type":"html","content":"<span class='clj-double'>6.828730158730158</span>","value":"6.828730158730158"}],"value":"[:y-mean 6.828730158730158]"},{"type":"list-like","open":"","close":"","separator":" ","items":[{"type":"html","content":"<span class='clj-keyword'>:x-var</span>","value":":x-var"},{"type":"html","content":"<span class='clj-double'>2.306390783389556</span>","value":"2.306390783389556"}],"value":"[:x-var 2.306390783389556]"},{"type":"list-like","open":"","close":"","separator":" ","items":[{"type":"html","content":"<span class='clj-keyword'>:conf-int</span>","value":":conf-int"},{"type":"list-like","open":"<span class='clj-vector'>[</span>","close":"<span class='clj-vector'>]</span>","separator":" ","items":[{"type":"html","content":"<span class='clj-double'>0.05150536718699117</span>","value":"0.05150536718699117"},{"type":"html","content":"<span class='clj-double'>0.5795795616299553</span>","value":"0.5795795616299553"}],"value":"[0.05150536718699117 0.5795795616299553]"}],"value":"[:conf-int [0.05150536718699117 0.5795795616299553]]"},{"type":"list-like","open":"","close":"","separator":" ","items":[{"type":"html","content":"<span class='clj-keyword'>:y-var</span>","value":":y-var"},{"type":"html","content":"<span class='clj-double'>1.9214943746031747</span>","value":"1.9214943746031747"}],"value":"[:y-var 1.9214943746031747]"},{"type":"list-like","open":"","close":"","separator":" ","items":[{"type":"html","content":"<span class='clj-keyword'>:t-stat</span>","value":":t-stat"},{"type":"html","content":"<span class='clj-double'>2.359010944933727</span>","value":"2.359010944933727"}],"value":"[:t-stat 2.359010944933727]"},{"type":"list-like","open":"","close":"","separator":" ","items":[{"type":"html","content":"<span class='clj-keyword'>:n1</span>","value":":n1"},{"type":"html","content":"<span class='clj-unkown'>873</span>","value":"873"}],"value":"[:n1 873]"}],"value":"{:p-value 0.019450556443720846, :df 171.32465666242578, :n2 126, :x-mean 7.144272623138631, :y-mean 6.828730158730158, :x-var 2.306390783389556, :conf-int [0.05150536718699117 0.5795795616299553], :y-var 1.9214943746031747, :t-stat 2.359010944933727, :n1 873}"}
+;; <=
+
+;; **
+;;; We supply two sets of data (one as first arg and second as `:y` option)
+;;; and set up `:paired` option to `false` because
+;;; we are interesting in hypothesis tests based on a difference in means.
+;;; `:conf-level` option corresponds to the returned confidence interval.
+;;; The `:alternative` hypothesis can be `:less`, `:greater`, or `two-sided`.
+;; **
+
+;; **
+;;; For one sample t-tests one can use `t-test` function without `:y` option and with appropriate `:mu` option (default 0).
+;; **
+
+;; **
+;;; As an example of one sample t-test
+;;; we can calculate a 95% confidence interval for the average length of pregnancies 
+;;; (`:weeks`).
+;; **
+
+;; @@
+(def weeks
+  (filter (partial not= "NA") (i/sel nc :cols :weeks)))
+
+((s/t-test weeks
+          :mu (s/mean weeks)
+          :conf-lavel 0.90
+          :alternative :two-sided) :conf-int)
+;; @@
+;; =>
+;;; {"type":"list-like","open":"<span class='clj-vector'>[</span>","close":"<span class='clj-vector'>]</span>","separator":" ","items":[{"type":"html","content":"<span class='clj-double'>38.15279117659766</span>","value":"38.15279117659766"},{"type":"html","content":"<span class='clj-double'>38.516547500757056</span>","value":"38.516547500757056"}],"value":"[38.15279117659766 38.516547500757056]"}
+;; <=
+
+;; **
+;;; * * *
+;;; 
+;;; ## On your own
+;;; -   Interpret obtained 95% confidence interval for the average length of pregnancies.
+;;; 
+;;; -   Calculate a new confidence interval for the average length of pregnancies at the 90% 
+;;; confidence level.
+;;; 
+;;; -   Conduct a hypothesis test evaluating whether the average weight gained by 
+;;; younger mothers is different than the average weight gained by mature mothers.
+;;; 
+;;; -   Now, a non-inference task: Determine the age cutoff for younger and mature 
+;;; mothers. Use a method of your choice, and explain how your method works.
+;;; 
+;;; -   Pick a pair of numerical and categorical variables and come up with a 
+;;; research question evaluating the relationship between these variables. 
+;;; Formulate the question in a way that it can be answered using a hypothesis test
+;;; and/or a confidence interval. Answer your question using the `t-test` 
+;;; function, report the statistical results, and also provide an explanation in 
+;;; plain language.
+;; **
