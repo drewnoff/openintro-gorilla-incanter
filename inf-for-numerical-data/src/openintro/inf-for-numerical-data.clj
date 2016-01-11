@@ -197,7 +197,7 @@
 
 ((s/t-test weeks
           :mu (s/mean weeks)
-          :conf-lavel 0.90
+          :conf-lavel 0.95
           :alternative :two-sided) :conf-int)
 ;; @@
 ;; =>
