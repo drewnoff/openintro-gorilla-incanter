@@ -22,13 +22,7 @@
 ;; <=
 
 ;; **
-;;; ## North Carolina births
 ;;; 
-;;; In 2004, the state of North Carolina released a large data set containing 
-;;; information on births recorded in this state. This data set is useful to 
-;;; researchers studying the relation between habits and practices of expectant 
-;;; mothers and the birth of their children. We will work with a random sample of 
-;;; observations from this data set.
 ;; **
 
 ;; **
@@ -166,7 +160,7 @@
 (s/t-test (i/sel (i/$where {:habit "nonsmoker"} nc) :cols :weight)
           :y (i/sel (i/$where {:habit "smoker"} nc) :cols :weight)
           :paired false
-          :conf-lavel 0.95
+          :conf-level 0.95
           :alternative :two-sided)
 ;; @@
 ;; =>
@@ -197,7 +191,7 @@
 
 ((s/t-test weeks
           :mu (s/mean weeks)
-          :conf-lavel 0.95
+          :conf-level 0.95
           :alternative :two-sided) :conf-int)
 ;; @@
 ;; =>
