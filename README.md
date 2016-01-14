@@ -24,4 +24,6 @@ Load lab's `clj` file with `ctrl+g ctrl+l` shortcut.
 
 - [Confidence Intervals](http://viewer.gorilla-repl.org/view.html?source=github&user=drewnoff&repo=openintro-gorilla-incanter&path=/confidence-intervals/src/openintro/confidence-intervals.clj)
 
-- [Inference for numerical data](http://viewer.gorilla-repl.org/view.html?source=github&user=drewnoff&repo=openintro-gorilla-incanter&path=/inf-for-numerical-data/src/openintro/inf-for-numerical-data.clj)
+- [Inference for Numerical data](http://viewer.gorilla-repl.org/view.html?source=github&user=drewnoff&repo=openintro-gorilla-incanter&path=/inf-for-numerical-data/src/openintro/inf-for-numerical-data.clj)
+
+- [Inference for Categorical data](http://viewer.gorilla-repl.org/view.html?source=github&user=drewnoff&repo=openintro-gorilla-incanter&path=/inf-for-categorical-data/src/openintro/inf-for-categorical-data.clj)
