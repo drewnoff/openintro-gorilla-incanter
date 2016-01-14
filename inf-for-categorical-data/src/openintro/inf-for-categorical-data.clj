@@ -223,6 +223,117 @@
 ;;; ## Success-failure condition
 ;; **
 
-;; @@
+;; **
+;;; The textbook emphasizes that you must always check conditions before making 
+;;; inference. For inference on proportions, the sample proportion can be assumed 
+;;; to be nearly normal if it is based upon a random sample of independent 
+;;; observations and if both @@np \geq 10@@ and @@n(1 - p) \geq 10@@. This rule of 
+;;; thumb is easy enough to follow, but it makes one wonder: what's so special 
+;;; about the number 10?
+;;; 
+;;; The short answer is: nothing. You could argue that we would be fine with 9 or 
+;;; that we really should be using 11. What is the "best" value for such a rule of 
+;;; thumb is, at least to some degree, arbitrary. However, when @@np@@ and @@n(1-p)@@ 
+;;; reaches 10 the sampling distribution is sufficiently normal to use confidence 
+;;; intervals and hypothesis tests that are based on that approximation.
+;;; 
+;;; We can investigate the interplay between @@n@@ and @@p@@ and the shape of the 
+;;; sampling distribution by using simulations. To start off, we simulate the 
+;;; process of drawing 5000 samples of size 1040 from a population with a true 
+;;; atheist proportion of 0.1. For each of the 5000 samples we compute @@\hat{p}@@ 
+;;; and then plot a histogram to visualize their distribution.
+;; **
 
 ;; @@
+(def n 1040)
+(def p 0.1)
+(def outcomes ["non-atheist" "atheist"])
+
+(def pop-sample
+  (map outcomes (s/sample-binomial n :prob p :size 1)))
+
+(def p-hats
+  (map
+    (fn [_]
+      (/ (count (filter (partial = "atheist")
+                        (map outcomes (s/sample-binomial n :prob p :size 1))))
+         n))
+    (range 5000)))
+;; @@
+;; =>
+;;; {"type":"html","content":"<span class='clj-var'>#&#x27;openintro.inf-for-categorical-data/p-hats</span>","value":"#'openintro.inf-for-categorical-data/p-hats"}
+;; <=
+
+;; @@
+(def p-hat-chart 
+  (c/histogram p-hats
+               :title "p = 0.1, n = 1040"
+               :nbins 15))
+
+(c/set-x-range p-hat-chart 0 0.18)
+
+(chart-view p-hat-chart)
+;; @@
+;; =>
+;;; {"type":"html","content":"<img src=\"data:image/PNG;base64,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\"/>","value":"#incanter_gorilla.render.ChartView{:content #object[org.jfree.chart.JFreeChart 0x754656d2 \"org.jfree.chart.JFreeChart@754656d2\"], :opts nil}"}
+;; <=
+
+;; **
+;;; These commands build up the sampling distribution of @@\hat{p}@@
+;; **
+
+;; **
+;;; *9.  Describe the sampling distribution of sample proportions at @@n = 1040@@ and 
+;;;     @@p = 0.1@@. Be sure to note the center, spread, and shape.\
+;;;     *Hint:* Remember that Incanter has functions such as `mean` to calculate summary
+;;;     statistics.*
+;;; 
+;;; *10. Repeat the above simulation three more times but with modified sample
+;;;     sizes and proportions: for @@n = 400@@ and @@p = 0.1@@, @@n = 1040@@ and 
+;;;     @@p = 0.02@@, and @@n = 400@@ and @@p = 0.02@@. Plot all four histograms
+;;;     together. Describe the three new sampling distributions. 
+;;;     Based on these plots, how does @@n@@ appear to affect the 
+;;;     distribution of @@\hat{p}@@? How does @@p@@ affect the sampling distribution?*
+;;; 
+;;; *11. If you refer to Table 6, you'll find that Australia has a sample 
+;;;     proportion of 0.1 on a sample size of 1040, and that Ecuador has a sample 
+;;;     proportion of 0.02 on 400 subjects. Let's suppose for this exercise that 
+;;;     these point estimates are actually the truth. Then given the shape of 
+;;;     their respective sampling distributions, do you think it is sensible to 
+;;;     proceed with inference and report margin of errors, as the reports does?*
+;;; 
+;;; * * *
+;;; ## On your own
+;;; 
+;;; The question of atheism was asked by WIN-Gallup International in a similar 
+;;; survey that was conducted in 2005. (We assume here that sample sizes have 
+;;; remained the same.) Table 4 on page 13 of the report summarizes survey results 
+;;; from 2005 and 2012 for 39 countries.
+;;; 
+;;; -   Answer the following two questions. As 
+;;;     always, write out the hypotheses for any tests you conduct and outline the
+;;;     status of the conditions for inference.
+;;; 
+;;;     **a.** Is there convincing evidence that Spain has seen a change in its 
+;;;     atheism index between 2005 and 2012?\
+;;;     *Hint:* Create a new data set for respondents from Spain. Form
+;;;     confidence intervals for the true proportion of athiests in both
+;;;     years, and determine whether they overlap.
+;;; 
+;;;     **b.** Is there convincing evidence that the United States has seen a
+;;;     change in its atheism index between 2005 and 2012?
+;;; 
+;;; -   If in fact there has been no change in the atheism index in the countries 
+;;;     listed in Table 4, in how many of those countries would you expect to 
+;;;     detect a change (at a significance level of 0.05) simply by chance?\
+;;;     *Hint:* Look in the textbook index under Type 1 error.
+;;; 
+;;; -   Suppose you're hired by the local government to estimate the proportion of 
+;;;     residents that attend a religious service on a weekly basis. According to 
+;;;     the guidelines, the estimate must have a margin of error no greater than 
+;;;     1% with 95% confidence. You have no idea what to expect for @@p@@. How many 
+;;;     people would you have to sample to ensure that you are within the 
+;;;     guidelines?\
+;;;     *Hint:* Refer to your plot of the relationship between @@p@@ and margin of 
+;;;     error. Do not use the data set to answer this question.
+;; **
