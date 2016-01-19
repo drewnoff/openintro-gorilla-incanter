@@ -29,3 +29,5 @@ Load lab's `clj` file with `ctrl+g ctrl+l` shortcut.
 - [Inference for Categorical data](http://viewer.gorilla-repl.org/view.html?source=github&user=drewnoff&repo=openintro-gorilla-incanter&path=/inf-for-categorical-data/src/openintro/inf-for-categorical-data.clj)
 
 - [Linear Regression](http://viewer.gorilla-repl.org/view.html?source=github&user=drewnoff&repo=openintro-gorilla-incanter&path=/linear-regression/src/openintro/linear-regression.clj)
+
+- [Multiple Linear Regression](http://viewer.gorilla-repl.org/view.html?source=github&user=drewnoff&repo=openintro-gorilla-incanter&path=/multiple-regression/src/openintro/multiple-regression.clj)
